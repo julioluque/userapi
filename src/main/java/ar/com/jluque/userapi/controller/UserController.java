@@ -6,11 +6,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.com.jluque.userapi.dto.UserRequestDto;
+import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.service.UserApiService;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @RestController
 @RequestMapping(path = "/users")
@@ -37,8 +41,8 @@ public class UserController {
 		return new ResponseEntity<>(service.getUsersWithPhones(), HttpStatus.OK);
 	}
 
-	@GetMapping("/find")
-	public ResponseEntity<List<UserEntity>> findUser() {
-		return new ResponseEntity<>(service.getUsersWithPhones(), HttpStatus.OK);
+	@PostMapping("/addUser")
+	public ResponseEntity<UserResponseDto> findUser(@RequestBody UserRequestDto userRequestDto) {
+		return new ResponseEntity<>(service.newUser(userRequestDto), HttpStatus.OK);
 	}
 }

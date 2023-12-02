@@ -7,7 +7,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserReponseDto extends BaseDto {
+public class UserResponseDto extends BaseDto {
 
 	private static final long serialVersionUID = 6792054436219913259L;
 	
