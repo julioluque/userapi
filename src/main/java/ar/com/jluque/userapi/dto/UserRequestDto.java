@@ -1,5 +1,12 @@
 package ar.com.jluque.userapi.dto;
 
-public class UserRequestDto extends UserDto{
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+public class UserRequestDto extends UserDto {
 
 }
