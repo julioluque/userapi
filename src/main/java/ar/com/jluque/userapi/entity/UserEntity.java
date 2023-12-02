@@ -2,7 +2,6 @@ package ar.com.jluque.userapi.entity;
 
 import java.util.List;
 
-import ar.com.jluque.userapi.dto.PhoneDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,21 +19,21 @@ import lombok.Setter;
 @Table(name = "USER_INFO")
 public class UserEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "USR_ID")
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "USR_ID")
+	private Long id;
 
-    @Column(name = "USR_NAME", unique = false, nullable = false)
-    private String name;
+	@Column(name = "USR_NAME", unique = false, nullable = false)
+	private String name;
 
-    @Column(name = "USR_EMAIL", unique = true, nullable = false)
-    private String email;
+	@Column(name = "USR_EMAIL", unique = true, nullable = false)
+	private String email;
 
-    @Column(name = "USR_PASSWORD", unique = false, nullable = false)
-    private String password;
+	@Column(name = "USR_PASSWORD", unique = false, nullable = false)
+	private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<PhoneEntity> phones;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private List<PhoneEntity> phones;
 
 }
