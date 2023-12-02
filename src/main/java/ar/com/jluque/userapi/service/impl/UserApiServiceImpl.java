@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import ar.com.jluque.userapi.dto.UserRequestDto;
+import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.mapper.RequestMapper;
@@ -42,15 +42,15 @@ public class UserApiServiceImpl implements UserApiService {
 	}
 
 	@Override
-	public UserResponseDto newUser(UserRequestDto userRequestDto) {
+	public UserResponseDto newUser(UserDto userDto) {
 
 		// TODO: validar request
-		if (RequestMapper.paramsValid(userRequestDto)) {
+		if (RequestMapper.paramsValid(userDto)) {
 			log.info("Param valid");
 		}
 
 		// TODO: consultar db para validar que no exista
-		Optional<UserEntity> userEntity = repository.findByEmail(userRequestDto.getEmail());
+		Optional<UserEntity> userEntity = repository.findByEmail(userDto.getEmail());
 		if (userEntity.isPresent()) {
 			log.error("lanzar error");
 		}
@@ -58,13 +58,13 @@ public class UserApiServiceImpl implements UserApiService {
 		// TODO: Manejar errores
 
 		// TODO: mapear nueo usuario, dto a entity
-		UserEntity newUserEntity = UserApiMapper.userMapperDtoToEntity(userRequestDto);
+		UserEntity newUserEntity = UserApiMapper.userMapperDtoToEntity(userDto);
 
 		// TODO: Persisitir nuevo usuario
 		repository.save(newUserEntity);
-		
+
 		// TODO: mapear response
-		return UserApiMapper.responseDtoBuild(userRequestDto, newUserEntity);
+		return UserApiMapper.responseDtoBuild(userDto, newUserEntity);
 	}
 
 }

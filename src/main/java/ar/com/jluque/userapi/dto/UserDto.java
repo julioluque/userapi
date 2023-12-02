@@ -1,5 +1,6 @@
 package ar.com.jluque.userapi.dto;
 
+import java.io.Serializable;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +16,9 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto {
+public class UserDto implements Serializable {
+
+	private static final long serialVersionUID = -1042496481767928226L;
 
 	private String name;
 	private String email;

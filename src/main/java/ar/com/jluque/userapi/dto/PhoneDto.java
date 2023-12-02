@@ -1,5 +1,7 @@
 package ar.com.jluque.userapi.dto;
 
+import java.io.Serializable;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +15,9 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class PhoneDto {
+public class PhoneDto implements Serializable {
+
+	private static final long serialVersionUID = 1540354800380206159L;
 
 	private String number;
 	private String cityCode;
