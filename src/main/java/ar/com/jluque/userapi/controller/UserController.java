@@ -1,6 +1,7 @@
 package ar.com.jluque.userapi.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +15,11 @@ import ar.com.jluque.userapi.service.UserApiService;
 @RequestMapping(path = "/users")
 public class UserController {
 
-	@Autowired
 	private UserApiService service;
+
+	public UserController(UserApiService service) {
+		this.service = service;
+	}
 
 	@GetMapping("/echotest")
 	public ResponseEntity<String> echotest() {
@@ -23,8 +27,7 @@ public class UserController {
 	}
 
 	@GetMapping("/")
-	public ResponseEntity<UserEntity> getUsers() {
-		return new ResponseEntity<>(service.getUsers(), HttpStatus.OK);
+	public ResponseEntity<List<UserEntity>> getUsers() {
+		return new ResponseEntity<>(service.getUsersWithPhones(), HttpStatus.OK);
 	}
-
 }

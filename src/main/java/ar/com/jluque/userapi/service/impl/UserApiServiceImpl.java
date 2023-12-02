@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.repository.UserRepository;
 import ar.com.jluque.userapi.service.UserApiService;
+import jakarta.transaction.Transactional;
 
 @Service
 public class UserApiServiceImpl implements UserApiService {
@@ -22,10 +23,8 @@ public class UserApiServiceImpl implements UserApiService {
 		return "TestDatabase = " + repository.isConect();
 	}
 
-	@Override
-	public UserEntity getUsers() {
-		List<UserEntity> all = repository.findAll();
-		return null;
+	@Transactional
+	public List<UserEntity> getUsersWithPhones() {
+	    return repository.findAll();
 	}
-
 }
