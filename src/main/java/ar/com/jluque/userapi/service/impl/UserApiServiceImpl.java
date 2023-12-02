@@ -1,6 +1,7 @@
 package ar.com.jluque.userapi.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -23,8 +24,15 @@ public class UserApiServiceImpl implements UserApiService {
 		return "TestDatabase = " + repository.isConect();
 	}
 
+	@Override
+	public UserEntity findById(Long id) {
+		Optional<UserEntity> userEntity = repository.findById(id);
+		return userEntity.get();
+	}
+
 	@Transactional
 	public List<UserEntity> getUsersWithPhones() {
-	    return repository.findAll();
+		return repository.findAll();
 	}
+
 }

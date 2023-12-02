@@ -10,8 +10,5 @@ public class PhoneDto {
 	private String number;
 	private String cityCode;
 	private String countryCode;
-//	"number": "1234567",
-//	"citycode": "1",
-//	"contrycode": "57"
 
 }

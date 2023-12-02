@@ -14,9 +14,4 @@ public class UserDto {
 	private String password;
 	private List<PhoneDto> phones;
 	
-//	"name": "Juan Rodriguez",
-//	"email": "juan@rodriguez.org",
-//	"password": "hunter2",
-//	"phones": [
-
 }

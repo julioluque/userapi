@@ -8,5 +8,8 @@ public interface UserApiService {
 
 	String echoTestService();
 
+	UserEntity findById(Long id);
+
 	List<UserEntity> getUsersWithPhones();
+
 }
