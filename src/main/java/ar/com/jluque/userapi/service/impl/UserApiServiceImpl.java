@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
+import ar.com.jluque.userapi.exception.custom.ConflictCustomException;
 import ar.com.jluque.userapi.mapper.RequestMapper;
 import ar.com.jluque.userapi.mapper.UserApiMapper;
 import ar.com.jluque.userapi.repository.UserRepository;
