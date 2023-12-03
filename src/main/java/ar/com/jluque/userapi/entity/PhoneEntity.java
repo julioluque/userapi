@@ -1,5 +1,7 @@
 package ar.com.jluque.userapi.entity;
 
+import java.util.UUID;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -28,9 +30,9 @@ import lombok.ToString;
 public class PhoneEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "PHO_ID")
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "PHO_ID", columnDefinition = "BINARY(16)")
+	private UUID id; // Cambiar a UUID
 
 	@Column(name = "PHO_NUMBER", unique = true, nullable = false)
 	private String number;

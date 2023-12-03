@@ -2,6 +2,7 @@ package ar.com.jluque.userapi.entity;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -30,9 +31,9 @@ import lombok.ToString;
 public class UserEntity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "USR_ID")
-	private Long id;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "USR_ID", columnDefinition = "BINARY(16)")
+	private UUID id; // Cambiar a UUID
 
 	@Column(name = "USR_NAME", unique = false, nullable = false)
 	private String name;
@@ -46,21 +47,19 @@ public class UserEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
 	private List<PhoneEntity> phones;
 
-	
 	@Column(name = "USR_CREATED", unique = false, nullable = true)
 	private LocalDateTime created;
 
 	@Column(name = "USR_MODIFIED", unique = false, nullable = true)
 	private LocalDateTime modified;
-	
+
 	@Column(name = "USR_LAST_LOGIN", unique = false, nullable = true)
 	private LocalDateTime lastLogin;
-	
+
 	@Column(name = "USR_TOKEN", unique = false, nullable = true)
 	private String token;
-	
+
 	@Column(name = "USR_ACTIVE", unique = false, nullable = true)
 	private Boolean isActive;
-	
-	
+
 }
