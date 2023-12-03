@@ -33,7 +33,7 @@ public class UserEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "USR_ID", columnDefinition = "BINARY(16)")
-	private UUID id; // Cambiar a UUID
+	private UUID id;
 
 	@Column(name = "USR_NAME", unique = false, nullable = false)
 	private String name;

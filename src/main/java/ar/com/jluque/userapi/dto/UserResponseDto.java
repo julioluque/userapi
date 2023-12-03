@@ -21,12 +21,16 @@ public class UserResponseDto implements Serializable {
 
 	private static final long serialVersionUID = 6792054436219913259L;
 
+//	private UUID id;
+//	private String userName;
+//	private LocalDateTime created;
+//	private LocalDateTime modified;
+//	private LocalDateTime lastLogin;
+//	private String token;
+//	private Boolean isActive;
+
 	private UUID id;
-	private String userName;
-	private LocalDateTime created;
-	private LocalDateTime modified;
-	private LocalDateTime lastLogin;
-	private String token;
-	private Boolean isActive;
+	private UserDto userInfo;
+	private UserData userData;
 
 }

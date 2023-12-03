@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.jluque.userapi.dto.UserData;
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.PhoneEntity;
@@ -31,26 +32,21 @@ public class UserMapper {
 		return userEntity;
 	}
 
-	public static UserResponseDto responseMapperBuildToDto(UserEntity userEntity) {
-		return UserResponseDto.builder().id(userEntity.getId()).userName(userEntity.getName())
-				.created(userEntity.getCreated()).modified(userEntity.getModified())
-				.lastLogin(userEntity.getLastLogin()).token(userEntity.getToken()).isActive(userEntity.getIsActive())
+	public static UserResponseDto responseMapperBuildToDto(UserEntity userEntity, UserDto userDto) {
+		return UserResponseDto.builder()
+				.id(userEntity.getId())
+				.userInfo(userDto)
+				.userData(UserData.builder()
+						.created(userEntity.getCreated()).modified(userEntity.getModified())
+						.lastLogin(userEntity.getLastLogin()).token(userEntity.getToken())
+						.isActive(userEntity.getIsActive()).build())
 				.build();
 	}
 
-	/**
-	 * Modifica: nombre, password o estado del usuario
-	 * 
-	 * @TODO: agregar modificar telefonos
-	 * 
-	 * @param userEntity
-	 * @param userDto
-	 * @return
-	 */
 	public static UserEntity updateUserMapperToEntity(UserEntity userEntity, UserDto userDto) {
 		userEntity.setName(userDto.getName());
 		userEntity.setPassword(userDto.getPassword());
-		userEntity.setIsActive(false); // TODO. change this, is necesary a enpoint specific.
+		userEntity.setIsActive(false);
 		userEntity.setModified(LocalDateTime.now());
 		userEntity.setLastLogin(LocalDateTime.now());
 		return userEntity;

@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
 		UserEntity newUserEntity = UserMapper.newUserMapperDtoToEntity(userDto);
 		newUserEntity = repository.save(newUserEntity);
-		return UserMapper.responseMapperBuildToDto(newUserEntity);
+		return UserMapper.responseMapperBuildToDto(newUserEntity, userDto);
 	}
 
 	@Transactional
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = getUserById(id);
 		UserEntity updatedUserEntity = UserMapper.updateUserMapperToEntity(userEntity, userDto);
 		updatedUserEntity = repository.save(updatedUserEntity);
-		return UserMapper.responseMapperBuildToDto(updatedUserEntity);
+		return UserMapper.responseMapperBuildToDto(updatedUserEntity, userDto);
 	}
 
 	@Transactional

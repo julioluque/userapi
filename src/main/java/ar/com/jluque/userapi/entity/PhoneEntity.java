@@ -32,7 +32,7 @@ public class PhoneEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "PHO_ID", columnDefinition = "BINARY(16)")
-	private UUID id; // Cambiar a UUID
+	private UUID id;
 
 	@Column(name = "PHO_NUMBER", unique = true, nullable = false)
 	private String number;
