@@ -36,7 +36,7 @@ public class PhoneEntity {
 	@Column(name = "PHO_CITY", unique = false, nullable = false)
 	private String cityCode;
 
-	@Column(name = "PHO_COUNTRY", unique = true, nullable = false)
+	@Column(name = "PHO_COUNTRY", unique = false, nullable = false)
 	private String countryCode;
 
 	@ManyToOne

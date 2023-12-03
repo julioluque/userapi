@@ -22,7 +22,6 @@ public class GeneralHandlerException {
 	@ResponseBody
 	public ErrorMessage unexpectedHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception);
-//		return new ErrorMessage(exception, request.getRequestURI());
 	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
@@ -30,7 +29,6 @@ public class GeneralHandlerException {
 	@ResponseBody
 	public ErrorMessage notFoundHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception);
-//		return new ErrorMessage(exception, request.getRequestURI());
 	}
 
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -44,7 +42,6 @@ public class GeneralHandlerException {
 	@ResponseBody
 	public ErrorMessage badRequestHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception);
-//		return new ErrorMessage(exception, request.getRequestURI());
 	}
 
 	@ResponseStatus(HttpStatus.FORBIDDEN)
@@ -52,7 +49,6 @@ public class GeneralHandlerException {
 	@ResponseBody
 	public ErrorMessage forbiddenHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception);
-//		return new ErrorMessage(exception, request.getRequestURI());
 	}
 
 	@ResponseStatus(HttpStatus.CONFLICT)
@@ -62,7 +58,6 @@ public class GeneralHandlerException {
 	@ResponseBody
 	public ErrorMessage conflictHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception);
-//		return new ErrorMessage(exception, request.getRequestURI());
 	}
 
 }

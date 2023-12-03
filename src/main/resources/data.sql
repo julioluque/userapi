@@ -18,8 +18,8 @@ CREATE TABLE USER_PHONE (
 );
 
 INSERT INTO USER_INFO (USR_NAME, USR_EMAIL, USR_PASSWORD) VALUES
-('julio luque', 'julio.luque@example.com', '1234abcd'),
-('juan perez', 'juan.perez@example.com', '0000aaaa');
+('julio jimenez', 'julio.jimenez@example.com', '1234abcd'),
+('jose jordan', 'jose.jordan@example.com', '0000aaaa');
 
 INSERT INTO USER_PHONE (PHO_NUMBER, PHO_CITY, PHO_COUNTRY, PHO_USR_ID) VALUES
 ('123456789', 'CityA', 'CountryX', 1),

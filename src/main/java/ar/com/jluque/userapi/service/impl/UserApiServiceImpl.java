@@ -8,16 +8,14 @@ import org.springframework.stereotype.Service;
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
-import ar.com.jluque.userapi.exception.custom.ConflictCustomException;
+import ar.com.jluque.userapi.exception.custom.FieldExistCustomException;
 import ar.com.jluque.userapi.mapper.RequestMapper;
 import ar.com.jluque.userapi.mapper.UserApiMapper;
 import ar.com.jluque.userapi.repository.UserRepository;
 import ar.com.jluque.userapi.service.UserApiService;
 import jakarta.transaction.Transactional;
-import lombok.extern.log4j.Log4j2;
 
 @Service
-@Log4j2
 public class UserApiServiceImpl implements UserApiService {
 
 	private final UserRepository repository;
@@ -45,26 +43,17 @@ public class UserApiServiceImpl implements UserApiService {
 	@Override
 	public UserResponseDto newUser(UserDto userDto) {
 
-		// TODO: validar request
-		if (RequestMapper.paramsValid(userDto)) {
-			log.info("Param valid");
-		}
+		RequestMapper.paramsValid(userDto);
 
-		// TODO: consultar db para validar que no exista
 		Optional<UserEntity> userEntity = repository.findByEmail(userDto.getEmail());
 		if (userEntity.isPresent()) {
-			log.error("lanzar error");
+			throw new FieldExistCustomException("El correo ya esta registrado.");
 		}
 
-		// TODO: Manejar errores
-
-		// TODO: mapear nueo usuario, dto a entity
 		UserEntity newUserEntity = UserApiMapper.userMapperDtoToEntity(userDto);
 
-		// TODO: Persisitir nuevo usuario
-		repository.save(newUserEntity);
+		newUserEntity = repository.save(newUserEntity);
 
-		// TODO: mapear response
 		return UserApiMapper.responseDtoBuild(userDto, newUserEntity);
 	}
 

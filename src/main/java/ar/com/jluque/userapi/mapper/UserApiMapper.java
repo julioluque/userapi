@@ -1,5 +1,6 @@
 package ar.com.jluque.userapi.mapper;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +11,7 @@ import ar.com.jluque.userapi.entity.UserEntity;
 
 public class UserApiMapper {
 
-	public UserApiMapper() {
+	private UserApiMapper() {
 	}
 
 	public static UserEntity userMapperDtoToEntity(UserDto userDto) {
@@ -19,16 +20,15 @@ public class UserApiMapper {
 
 		userDto.getPhones().forEach(p -> phoneEntityList.add(PhoneEntity.builder().number(p.getNumber())
 				.cityCode(p.getCityCode()).countryCode(p.getCountryCode()).build()));
-//		for (PhoneDto p : request.getPhones()) {
-//			phoneEntityList.add(PhoneEntity.builder().number(p.getNumber()).cityCode(p.getCityCode())
-//					.countryCode(p.getCountryCode()).build());
-//		}
 
-		return UserEntity.builder().name(userDto.getName()).email(userDto.getEmail()).password("somepassword")
+		return UserEntity.builder().name(userDto.getName()).email(userDto.getEmail()).password(userDto.getPassword())
 				.phones(phoneEntityList).build();
 	}
 
-	public static UserResponseDto responseDtoBuild(UserDto userDto, UserEntity newUserEntity) {
-		return new UserResponseDto();
+	public static UserResponseDto responseDtoBuild(UserDto userDto, UserEntity userEntity) {
+		LocalDateTime dateTime = LocalDateTime.now();
+		return UserResponseDto.builder().id(userEntity.getId()).userName(userEntity.getName()).created(dateTime)
+				.modified(dateTime).lastLogin(dateTime).token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true)
+				.build();
 	}
 }
