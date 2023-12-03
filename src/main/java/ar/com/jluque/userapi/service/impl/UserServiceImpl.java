@@ -1,6 +1,7 @@
 package ar.com.jluque.userapi.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -35,7 +36,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public UserEntity getUserById(Long id) {
+	public UserEntity getUserById(UUID id) {
 		return repository.findById(id)
 				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 	}
@@ -53,7 +54,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public UserResponseDto updateUser(Long id, UserDto userDto) {
+	public UserResponseDto updateUser(UUID id, UserDto userDto) {
 		UserEntity userEntity = getUserById(id);
 		UserEntity updatedUserEntity = UserMapper.updateUserMapperToEntity(userEntity, userDto);
 		updatedUserEntity = repository.save(updatedUserEntity);
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public void deleteUser(Long id) {
+	public void deleteUser(UUID id) {
 		UserEntity userEntity = getUserById(id);
 		repository.delete(userEntity);
 	}
