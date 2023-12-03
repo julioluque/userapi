@@ -40,7 +40,7 @@ public class UserApiServiceImpl implements UserApiService {
 		return repository.findAll();
 	}
 
-	@Override
+	@Transactional
 	public UserResponseDto newUser(UserDto userDto) {
 
 		RequestMapper.paramsValid(userDto);

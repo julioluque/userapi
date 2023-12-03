@@ -1,5 +1,7 @@
 package ar.com.jluque.userapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -41,5 +43,6 @@ public class PhoneEntity {
 
 	@ManyToOne
 	@JoinColumn(name = "USR_ID")
+	@JsonIgnore
 	private UserEntity user;
 }

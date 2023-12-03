@@ -21,14 +21,18 @@ public class UserApiMapper {
 		userDto.getPhones().forEach(p -> phoneEntityList.add(PhoneEntity.builder().number(p.getNumber())
 				.cityCode(p.getCityCode()).countryCode(p.getCountryCode()).build()));
 
-		return UserEntity.builder().name(userDto.getName()).email(userDto.getEmail()).password(userDto.getPassword())
-				.phones(phoneEntityList).build();
+		UserEntity userEntity = UserEntity.builder().name(userDto.getName()).email(userDto.getEmail())
+				.password(userDto.getPassword()).phones(phoneEntityList).build();
+
+		phoneEntityList.forEach(phoneEntity -> phoneEntity.setUser(userEntity));
+
+		return userEntity;
 	}
 
 	public static UserResponseDto responseDtoBuild(UserDto userDto, UserEntity userEntity) {
 		LocalDateTime dateTime = LocalDateTime.now();
 		return UserResponseDto.builder().id(userEntity.getId()).userName(userEntity.getName()).created(dateTime)
-				.modified(dateTime).lastLogin(dateTime).token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true)
-				.build();
+				.modified(dateTime).lastLogin(dateTime).token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1")
+				.isActive(true).build();
 	}
 }
