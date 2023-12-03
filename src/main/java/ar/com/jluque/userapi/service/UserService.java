@@ -5,19 +5,21 @@ import java.util.UUID;
 
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
-import ar.com.jluque.userapi.entity.UserEntity;
+import ar.com.jluque.userapi.dto.UserStatus;
 
 public interface UserService {
 
 	String echoTestService();
 
-	UserEntity getUserById(UUID id);
+	UserResponseDto getUserById(UUID id);
 
-	List<UserEntity> getAllUsers();
+	List<UserResponseDto> getAllUsers();
 
 	UserResponseDto addUser(UserDto userDto);
 
 	UserResponseDto updateUser(UUID id, UserDto userDto);
+
+	UserResponseDto bloquerUser(UUID id, UserStatus userStatus);
 
 	void deleteUser(UUID id);
 }

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
-import ar.com.jluque.userapi.entity.UserEntity;
+import ar.com.jluque.userapi.dto.UserStatus;
 import ar.com.jluque.userapi.service.UserService;
 
 @RestController
@@ -37,12 +37,12 @@ public class UserController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<UserEntity>> getAllUsers() {
+	public ResponseEntity<List<UserResponseDto>> getAllUsers() {
 		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<UserEntity> getUserById(@PathVariable UUID id) {
+	public ResponseEntity<UserResponseDto> getUserById(@PathVariable UUID id) {
 		return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
 	}
 
@@ -54,6 +54,11 @@ public class UserController {
 	@PutMapping("/{id}")
 	public ResponseEntity<UserResponseDto> updateUser(@PathVariable UUID id, @RequestBody UserDto userDto) {
 		return new ResponseEntity<>(userService.updateUser(id, userDto), HttpStatus.OK);
+	}
+
+	@PutMapping("/{id}/bloquer")
+	public ResponseEntity<UserResponseDto> blockUser(@PathVariable UUID id, @RequestBody UserStatus userStatus) {
+		return new ResponseEntity<>(userService.bloquerUser(id, userStatus), HttpStatus.NOT_MODIFIED);
 	}
 
 	@DeleteMapping("/{id}")

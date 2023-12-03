@@ -1,7 +1,6 @@
 package ar.com.jluque.userapi.dto;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,13 +15,14 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserData implements Serializable {
+public class UserStatus implements Serializable {
 
-	private static final long serialVersionUID = 9128172871970149670L;
+	private static final long serialVersionUID = -7533119533669758540L;
 
-	private LocalDateTime created;
-	private LocalDateTime modified;
-	private LocalDateTime lastLogin;
-	private String token;
-	private Boolean isActive;
+	private Boolean bloqued;
+
+//	private Boolean status;
+
+	private String reason;
+
 }

@@ -1,14 +1,18 @@
 package ar.com.jluque.userapi.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
+import ar.com.jluque.userapi.dto.UserStatus;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.exception.custom.FieldExistCustomException;
+import ar.com.jluque.userapi.exception.custom.NisumBuissinesException;
 import ar.com.jluque.userapi.exception.custom.NotFoundCustomException;
 import ar.com.jluque.userapi.mapper.RequestMapper;
 import ar.com.jluque.userapi.mapper.UserMapper;
@@ -31,14 +35,26 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public List<UserEntity> getAllUsers() {
-		return repository.findAll();
+	public List<UserResponseDto> getAllUsers() {
+		List<UserEntity> userEntityList = repository.findAll();
+
+		List<UserResponseDto> responseList = new ArrayList<>();
+		for (UserEntity userEntity : userEntityList) {
+			UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+			UserResponseDto userResponseDto = UserMapper.responseMapperBuildToDto(userEntity, userDto);
+			responseList.add(userResponseDto);
+		}
+
+		return responseList;
 	}
 
 	@Override
-	public UserEntity getUserById(UUID id) {
-		return repository.findById(id)
+	public UserResponseDto getUserById(UUID id) {
+		UserEntity userEntity = repository.findById(id)
 				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
+		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+		return UserMapper.responseMapperBuildToDto(userEntity, userDto);
+
 	}
 
 	@Transactional
@@ -55,15 +71,32 @@ public class UserServiceImpl implements UserService {
 
 	@Transactional
 	public UserResponseDto updateUser(UUID id, UserDto userDto) {
-		UserEntity userEntity = getUserById(id);
+		UserEntity userEntity = repository.findById(id)
+				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
+
 		UserEntity updatedUserEntity = UserMapper.updateUserMapperToEntity(userEntity, userDto);
 		updatedUserEntity = repository.save(updatedUserEntity);
 		return UserMapper.responseMapperBuildToDto(updatedUserEntity, userDto);
 	}
 
 	@Transactional
+	public UserResponseDto bloquerUser(UUID id, UserStatus userStatus) {
+		UserEntity userEntity = repository.findById(id)
+				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
+
+		if (Objects.equals(userEntity.getIsActive(), userStatus.getBloqued()))
+			throw new NisumBuissinesException("Si cambios. El estado del usuario es el mismo que la peticion.");
+
+		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+		UserEntity updatedUserEntity = UserMapper.bloquerUserMapperToEntity(userEntity, userStatus);
+		updatedUserEntity = repository.save(updatedUserEntity);
+		return UserMapper.responseMapperBuildToDto(updatedUserEntity, userDto);
+	}
+
+	@Transactional
 	public void deleteUser(UUID id) {
-		UserEntity userEntity = getUserById(id);
+		UserEntity userEntity = repository.findById(id)
+				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 		repository.delete(userEntity);
 	}
 }

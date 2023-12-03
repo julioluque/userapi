@@ -4,7 +4,7 @@ public class NisumBuissinesException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String DESCRIPTION = "Nisum General Error";
+	private static final String DESCRIPTION = "Nisum Bussines Exception";
 
 	public NisumBuissinesException(String detail) {
 		super(DESCRIPTION + ". " + detail);
