@@ -1,5 +1,6 @@
 package ar.com.jluque.userapi.dto;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -15,7 +16,7 @@ import lombok.ToString;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserResponseDto { // extends BaseDto {
+public class UserResponseDto implements Serializable {
 
 	private static final long serialVersionUID = 6792054436219913259L;
 
@@ -27,7 +28,4 @@ public class UserResponseDto { // extends BaseDto {
 	private String token;
 	private Boolean isActive;
 
-//	public static UserResponseDtoBuilder builder() {
-//		return new UserResponseDtoBuilder();
-//	}
 }

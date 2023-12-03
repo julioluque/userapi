@@ -2,11 +2,14 @@ package ar.com.jluque.userapi.controller;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,36 +17,47 @@ import org.springframework.web.bind.annotation.RestController;
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
-import ar.com.jluque.userapi.service.UserApiService;
+import ar.com.jluque.userapi.service.UserService;
 
 @RestController
 @RequestMapping(path = "/users")
 public class UserController {
 
-	private UserApiService service;
+	private final UserService userService;
 
-	public UserController(UserApiService service) {
-		this.service = service;
+	@Autowired
+	public UserController(UserService userService) {
+		this.userService = userService;
 	}
 
 	@GetMapping("/echotest")
 	public ResponseEntity<String> echotest() {
-		return new ResponseEntity<>(service.echoTestService(), HttpStatus.OK);
+		return new ResponseEntity<>(userService.echoTestService(), HttpStatus.OK);
+	}
+
+	@GetMapping
+	public ResponseEntity<List<UserEntity>> getAllUsers() {
+		return new ResponseEntity<>(userService.getAllUsers(), HttpStatus.OK);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<UserEntity> findById(@PathVariable Long id) {
-		return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
+	public ResponseEntity<UserEntity> getUserById(@PathVariable Long id) {
+		return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
 	}
 
-	@GetMapping("/")
-	public ResponseEntity<List<UserEntity>> findAll() {
-		return new ResponseEntity<>(service.getUsersWithPhones(), HttpStatus.OK);
+	@PostMapping
+	public ResponseEntity<UserResponseDto> addUser(@RequestBody UserDto userDto) {
+		return new ResponseEntity<>(userService.addUser(userDto), HttpStatus.CREATED);
 	}
 
-	@PostMapping("/addUser/")
-	public ResponseEntity<UserResponseDto> findUser(@RequestBody UserDto userDto) {
-		return new ResponseEntity<>(service.newUser(userDto), HttpStatus.OK);
+	@PutMapping("/{id}")
+	public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody UserDto userDto) {
+		return new ResponseEntity<>(userService.updateUser(id, userDto), HttpStatus.OK);
 	}
 
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+		userService.deleteUser(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 }

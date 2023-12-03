@@ -1,7 +1,6 @@
 package ar.com.jluque.userapi.service.impl;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -9,18 +8,19 @@ import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.exception.custom.FieldExistCustomException;
+import ar.com.jluque.userapi.exception.custom.NotFoundCustomException;
 import ar.com.jluque.userapi.mapper.RequestMapper;
-import ar.com.jluque.userapi.mapper.UserApiMapper;
+import ar.com.jluque.userapi.mapper.UserMapper;
 import ar.com.jluque.userapi.repository.UserRepository;
-import ar.com.jluque.userapi.service.UserApiService;
+import ar.com.jluque.userapi.service.UserService;
 import jakarta.transaction.Transactional;
 
 @Service
-public class UserApiServiceImpl implements UserApiService {
+public class UserServiceImpl implements UserService {
 
 	private final UserRepository repository;
 
-	public UserApiServiceImpl(UserRepository repository) {
+	public UserServiceImpl(UserRepository repository) {
 		this.repository = repository;
 	}
 
@@ -29,32 +29,40 @@ public class UserApiServiceImpl implements UserApiService {
 		return "TestDatabase = " + repository.isConect();
 	}
 
-	@Override
-	public UserEntity findById(Long id) {
-		Optional<UserEntity> userEntity = repository.findById(id);
-		return userEntity.get();
-	}
-
 	@Transactional
-	public List<UserEntity> getUsersWithPhones() {
+	public List<UserEntity> getAllUsers() {
 		return repository.findAll();
 	}
 
-	@Transactional
-	public UserResponseDto newUser(UserDto userDto) {
-
-		RequestMapper.paramsValid(userDto);
-
-		Optional<UserEntity> userEntity = repository.findByEmail(userDto.getEmail());
-		if (userEntity.isPresent()) {
-			throw new FieldExistCustomException("El correo ya esta registrado.");
-		}
-
-		UserEntity newUserEntity = UserApiMapper.userMapperDtoToEntity(userDto);
-
-		newUserEntity = repository.save(newUserEntity);
-
-		return UserApiMapper.responseDtoBuild(userDto, newUserEntity);
+	@Override
+	public UserEntity getUserById(Long id) {
+		return repository.findById(id)
+				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 	}
 
+	@Transactional
+	public UserResponseDto addUser(UserDto userDto) {
+		RequestMapper.paramsValid(userDto);
+
+		if (repository.existsByEmail(userDto.getEmail()))
+			throw new FieldExistCustomException("El correo ya está registrado.");
+
+		UserEntity newUserEntity = UserMapper.newUserMapperDtoToEntity(userDto);
+		newUserEntity = repository.save(newUserEntity);
+		return UserMapper.responseMapperBuildToDto(newUserEntity);
+	}
+
+	@Transactional
+	public UserResponseDto updateUser(Long id, UserDto userDto) {
+		UserEntity userEntity = getUserById(id);
+		UserEntity updatedUserEntity = UserMapper.updateUserMapperToEntity(userEntity, userDto);
+		updatedUserEntity = repository.save(updatedUserEntity);
+		return UserMapper.responseMapperBuildToDto(updatedUserEntity);
+	}
+
+	@Transactional
+	public void deleteUser(Long id) {
+		UserEntity userEntity = getUserById(id);
+		repository.delete(userEntity);
+	}
 }

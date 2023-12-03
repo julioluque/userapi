@@ -1,8 +1,7 @@
 package ar.com.jluque.userapi.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -45,7 +44,23 @@ public class UserEntity {
 	private String password;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-	
 	private List<PhoneEntity> phones;
 
+	
+	@Column(name = "USR_CREATED", unique = false, nullable = true)
+	private LocalDateTime created;
+
+	@Column(name = "USR_MODIFIED", unique = false, nullable = true)
+	private LocalDateTime modified;
+	
+	@Column(name = "USR_LAST_LOGIN", unique = false, nullable = true)
+	private LocalDateTime lastLogin;
+	
+	@Column(name = "USR_TOKEN", unique = false, nullable = true)
+	private String token;
+	
+	@Column(name = "USR_ACTIVE", unique = false, nullable = true)
+	private Boolean isActive;
+	
+	
 }

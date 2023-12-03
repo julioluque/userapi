@@ -6,14 +6,17 @@ import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.UserEntity;
 
-public interface UserApiService {
+public interface UserService {
 
 	String echoTestService();
 
-	UserEntity findById(Long id);
+	UserEntity getUserById(Long id);
 
-	List<UserEntity> getUsersWithPhones();
+	List<UserEntity> getAllUsers();
 
-	UserResponseDto newUser(UserDto userDto);
+	UserResponseDto addUser(UserDto userDto);
 
+	UserResponseDto updateUser(Long id, UserDto userDto);
+
+	void deleteUser(Long id);
 }

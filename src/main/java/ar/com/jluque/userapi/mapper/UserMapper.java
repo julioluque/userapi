@@ -9,12 +9,12 @@ import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.PhoneEntity;
 import ar.com.jluque.userapi.entity.UserEntity;
 
-public class UserApiMapper {
+public class UserMapper {
 
-	private UserApiMapper() {
+	private UserMapper() {
 	}
 
-	public static UserEntity userMapperDtoToEntity(UserDto userDto) {
+	public static UserEntity newUserMapperDtoToEntity(UserDto userDto) {
 
 		List<PhoneEntity> phoneEntityList = new ArrayList<>();
 
@@ -22,17 +22,38 @@ public class UserApiMapper {
 				.cityCode(p.getCityCode()).countryCode(p.getCountryCode()).build()));
 
 		UserEntity userEntity = UserEntity.builder().name(userDto.getName()).email(userDto.getEmail())
-				.password(userDto.getPassword()).phones(phoneEntityList).build();
+				.password(userDto.getPassword()).phones(phoneEntityList).created(LocalDateTime.now())
+				.lastLogin(LocalDateTime.now()).token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true)
+				.build();
 
 		phoneEntityList.forEach(phoneEntity -> phoneEntity.setUser(userEntity));
 
 		return userEntity;
 	}
 
-	public static UserResponseDto responseDtoBuild(UserDto userDto, UserEntity userEntity) {
-		LocalDateTime dateTime = LocalDateTime.now();
-		return UserResponseDto.builder().id(userEntity.getId()).userName(userEntity.getName()).created(dateTime)
-				.modified(dateTime).lastLogin(dateTime).token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1")
-				.isActive(true).build();
+	public static UserResponseDto responseMapperBuildToDto(UserEntity userEntity) {
+		return UserResponseDto.builder().id(userEntity.getId()).userName(userEntity.getName())
+				.created(userEntity.getCreated()).modified(userEntity.getModified())
+				.lastLogin(userEntity.getLastLogin()).token(userEntity.getToken()).isActive(userEntity.getIsActive())
+				.build();
 	}
+
+	/**
+	 * Modifica: nombre, password o estado del usuario
+	 * 
+	 * @TODO: agregar modificar telefonos
+	 * 
+	 * @param userEntity
+	 * @param userDto
+	 * @return
+	 */
+	public static UserEntity updateUserMapperToEntity(UserEntity userEntity, UserDto userDto) {
+		userEntity.setName(userDto.getName());
+		userEntity.setPassword(userDto.getPassword());
+		userEntity.setIsActive(false); // TODO. change this, is necesary a enpoint specific.
+		userEntity.setModified(LocalDateTime.now());
+		userEntity.setLastLogin(LocalDateTime.now());
+		return userEntity;
+	}
+
 }
