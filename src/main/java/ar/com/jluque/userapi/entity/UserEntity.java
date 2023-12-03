@@ -61,8 +61,8 @@ public class UserEntity {
 
 	@Column(name = "USR_ACTIVE", unique = false, nullable = true)
 	private Boolean isActive;
-	
-	@Column(name = "USR_ACTIVE_DESC", unique = false, nullable = true)
-	private String reasonBLocked;
+
+	@Column(name = "USR_STATUS", unique = false, nullable = true)
+	private String status;
 
 }

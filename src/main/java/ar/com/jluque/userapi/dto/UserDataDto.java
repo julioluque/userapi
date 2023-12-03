@@ -25,4 +25,5 @@ public class UserDataDto implements Serializable {
 	private LocalDateTime lastLogin;
 	private String token;
 	private Boolean isActive;
+	private String status;
 }

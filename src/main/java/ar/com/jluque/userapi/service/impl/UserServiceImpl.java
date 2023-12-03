@@ -7,9 +7,9 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import ar.com.jluque.userapi.dto.UserDataDto;
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
-import ar.com.jluque.userapi.dto.UserStatus;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.exception.custom.FieldExistCustomException;
 import ar.com.jluque.userapi.exception.custom.NisumBuissinesException;
@@ -37,6 +37,9 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public List<UserResponseDto> getAllUsers() {
 		List<UserEntity> userEntityList = repository.findAll();
+
+		if (userEntityList.isEmpty())
+			throw new NotFoundCustomException("No se encontraron usuarios registrados.");
 
 		List<UserResponseDto> responseList = new ArrayList<>();
 		for (UserEntity userEntity : userEntityList) {
@@ -80,15 +83,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Transactional
-	public UserResponseDto bloquerUser(UUID id, UserStatus userStatus) {
+	public UserResponseDto bloquerUser(UUID id, UserDataDto userDataDto) {
 		UserEntity userEntity = repository.findById(id)
 				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 
-		if (Objects.equals(userEntity.getIsActive(), userStatus.getBloqued()))
+		if (Objects.equals(userEntity.getIsActive(), userDataDto.getIsActive()))
 			throw new NisumBuissinesException("Si cambios. El estado del usuario es el mismo que la peticion.");
 
 		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
-		UserEntity updatedUserEntity = UserMapper.bloquerUserMapperToEntity(userEntity, userStatus);
+		UserEntity updatedUserEntity = UserMapper.bloquerUserMapperToEntity(userEntity, userDataDto);
 		updatedUserEntity = repository.save(updatedUserEntity);
 		return UserMapper.responseMapperBuildToDto(updatedUserEntity, userDto);
 	}

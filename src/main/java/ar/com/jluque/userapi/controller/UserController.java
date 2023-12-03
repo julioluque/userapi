@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ar.com.jluque.userapi.dto.UserDataDto;
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
-import ar.com.jluque.userapi.dto.UserStatus;
 import ar.com.jluque.userapi.service.UserService;
 
 @RestController
@@ -57,8 +57,8 @@ public class UserController {
 	}
 
 	@PutMapping("/{id}/bloquer")
-	public ResponseEntity<UserResponseDto> blockUser(@PathVariable UUID id, @RequestBody UserStatus userStatus) {
-		return new ResponseEntity<>(userService.bloquerUser(id, userStatus), HttpStatus.NOT_MODIFIED);
+	public ResponseEntity<UserResponseDto> blockUser(@PathVariable UUID id, @RequestBody UserDataDto userDataDto) {
+		return new ResponseEntity<>(userService.bloquerUser(id, userDataDto), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/{id}")

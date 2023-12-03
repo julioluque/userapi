@@ -23,6 +23,5 @@ public class UserResponseDto implements Serializable {
 	private UUID id;
 	private UserDto userInfo;
 	private UserDataDto userData;
-	private UserStatus userStatus;
 
 }
