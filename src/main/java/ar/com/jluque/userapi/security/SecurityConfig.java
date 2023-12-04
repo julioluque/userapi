@@ -52,7 +52,9 @@ public class SecurityConfig {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeHttpRequests()
-			.requestMatchers(SecurityConstant.REQUEST_MATCHER_ENDPOINT).permitAll()
+			.requestMatchers(SecurityConstant.REQUEST_MATCHER_AUTH).permitAll()
+			.requestMatchers(SecurityConstant.REQUEST_MATCHER_H2_CONSOLE).permitAll()
+			.requestMatchers(SecurityConstant.REQUEST_MATCHER_SWAGGER).permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic();
