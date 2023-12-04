@@ -12,6 +12,7 @@ import ar.com.jluque.userapi.exception.custom.ForbiddenCustomException;
 import ar.com.jluque.userapi.exception.custom.IllegalArgumentCustomException;
 import ar.com.jluque.userapi.exception.custom.NisumBuissinesException;
 import ar.com.jluque.userapi.exception.custom.NotFoundCustomException;
+import ar.com.jluque.userapi.exception.custom.UnauthorizedCustomException;
 import jakarta.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
@@ -58,6 +59,13 @@ public class GeneralHandlerException {
 	@ResponseBody
 	public ErrorMessage conflictHandler(HttpServletRequest request, Exception exception) {
 		return new ErrorMessage(exception);
+	}
+	
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler({ UnauthorizedCustomException.class,
+			org.springframework.security.access.AccessDeniedException.class })
+	public void unauthorizedHandler() {
+
 	}
 
 }

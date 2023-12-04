@@ -15,11 +15,11 @@ public interface UserService {
 
 	List<UserResponseDto> getAllUsers();
 
-	UserResponseDto addUser(UserDto userDto);
+	UserResponseDto addUser(UserDto userDto, String authorizationHeader);
 
-	UserResponseDto updateUser(UUID id, UserDto userDto);
+	UserResponseDto updateUser(UUID id, UserDto userDto, String authorizationHeader);
 
-	UserResponseDto bloquerUser(UUID id, UserDataDto userDataDto);
+	UserResponseDto bloquerUser(UUID id, UserDataDto userDataDto, String authorizationHeader);
 
 	void deleteUser(UUID id);
 }

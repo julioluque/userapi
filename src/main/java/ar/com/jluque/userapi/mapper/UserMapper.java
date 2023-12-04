@@ -10,6 +10,7 @@ import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.dto.UserResponseDto;
 import ar.com.jluque.userapi.entity.PhoneEntity;
 import ar.com.jluque.userapi.entity.UserEntity;
+import ar.com.jluque.userapi.exception.custom.UnauthorizedCustomException;
 import ar.com.jluque.userapi.utils.UserApiConstant;
 
 public class UserMapper {
@@ -17,7 +18,13 @@ public class UserMapper {
 	private UserMapper() {
 	}
 
-	public static UserEntity newUserMapperDtoToEntity(UserDto userDto) {
+	public static UserEntity newUserMapperDtoToEntity(UserDto userDto, String authorizationHeader) {
+
+		String bearerToken = "";
+		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
+			bearerToken = authorizationHeader.substring(7);
+		else
+			throw new UnauthorizedCustomException("Bearer Token Error");
 
 		List<PhoneEntity> phoneEntityList = new ArrayList<>();
 
@@ -26,8 +33,8 @@ public class UserMapper {
 
 		UserEntity userEntity = UserEntity.builder().name(userDto.getName()).email(userDto.getEmail())
 				.password(userDto.getPassword()).phones(phoneEntityList).created(LocalDateTime.now())
-				.lastLogin(LocalDateTime.now()).token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true)
-				.status(UserApiConstant.USER_STATUS_01).build();
+				.lastLogin(LocalDateTime.now()).token(bearerToken).isActive(true).status(UserApiConstant.USER_STATUS_01)
+				.build();
 
 		phoneEntityList.forEach(phoneEntity -> phoneEntity.setUser(userEntity));
 
@@ -35,6 +42,9 @@ public class UserMapper {
 	}
 
 	public static UserResponseDto responseMapperBuildToDto(UserEntity userEntity, UserDto userDto) {
+
+		maskedPass(userDto);
+		
 		return UserResponseDto.builder().id(userEntity.getId()).userInfo(userDto)
 				.userData(UserDataDto.builder().created(userEntity.getCreated()).modified(userEntity.getModified())
 						.lastLogin(userEntity.getLastLogin()).token(userEntity.getToken())
@@ -42,9 +52,21 @@ public class UserMapper {
 				.build();
 	}
 
-	public static UserEntity updateUserMapperToEntity(UserEntity userEntity, UserDto userDto) {
+	public static void maskedPass(UserDto userDto) {
+		userDto.setPassword("*******");
+	}
+
+	public static UserEntity updateUserMapperToEntity(UserEntity userEntity, UserDto userDto,
+			String authorizationHeader) {
+
+		String bearerToken = "";
+		if (authorizationHeader != null && authorizationHeader.startsWith("Bearer "))
+			bearerToken = authorizationHeader.substring(7);
+		else
+			throw new UnauthorizedCustomException("Bearer Token Error");
+
 		userEntity.setName(userDto.getName());
-		userEntity.setPassword(userDto.getPassword());
+		userEntity.setPassword(bearerToken);
 		userEntity.setModified(LocalDateTime.now());
 		userEntity.setLastLogin(LocalDateTime.now());
 		userEntity.setStatus(UserApiConstant.USER_STATUS_02);

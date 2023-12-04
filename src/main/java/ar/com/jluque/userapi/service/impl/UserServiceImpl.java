@@ -44,6 +44,7 @@ public class UserServiceImpl implements UserService {
 		List<UserResponseDto> responseList = new ArrayList<>();
 		for (UserEntity userEntity : userEntityList) {
 			UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+			UserMapper.maskedPass(userDto);
 			UserResponseDto userResponseDto = UserMapper.responseMapperBuildToDto(userEntity, userDto);
 			responseList.add(userResponseDto);
 		}
@@ -56,34 +57,34 @@ public class UserServiceImpl implements UserService {
 		UserEntity userEntity = repository.findById(id)
 				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+		UserMapper.maskedPass(userDto);
 		return UserMapper.responseMapperBuildToDto(userEntity, userDto);
 
 	}
 
 	@Transactional
-	public UserResponseDto addUser(UserDto userDto) {
+	public UserResponseDto addUser(UserDto userDto, String authorizationHeader) {
 		RequestMapper.paramsValid(userDto);
-
 		if (repository.existsByEmail(userDto.getEmail()))
 			throw new FieldExistCustomException("El correo ya está registrado.");
 
-		UserEntity newUserEntity = UserMapper.newUserMapperDtoToEntity(userDto);
+		UserEntity newUserEntity = UserMapper.newUserMapperDtoToEntity(userDto, authorizationHeader);
 		newUserEntity = repository.save(newUserEntity);
 		return UserMapper.responseMapperBuildToDto(newUserEntity, userDto);
 	}
 
 	@Transactional
-	public UserResponseDto updateUser(UUID id, UserDto userDto) {
+	public UserResponseDto updateUser(UUID id, UserDto userDto, String authorizationHeader) {
 		UserEntity userEntity = repository.findById(id)
 				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 
-		UserEntity updatedUserEntity = UserMapper.updateUserMapperToEntity(userEntity, userDto);
+		UserEntity updatedUserEntity = UserMapper.updateUserMapperToEntity(userEntity, userDto, authorizationHeader);
 		updatedUserEntity = repository.save(updatedUserEntity);
 		return UserMapper.responseMapperBuildToDto(updatedUserEntity, userDto);
 	}
 
 	@Transactional
-	public UserResponseDto bloquerUser(UUID id, UserDataDto userDataDto) {
+	public UserResponseDto bloquerUser(UUID id, UserDataDto userDataDto, String authorizationHeader) {
 		UserEntity userEntity = repository.findById(id)
 				.orElseThrow(() -> new NotFoundCustomException("No se encontro el usuario: " + id));
 
