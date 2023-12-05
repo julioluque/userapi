@@ -8,8 +8,7 @@ public class SecurityConstant {
 	public static final long JWT_EXPIRATION_TOKEN = 300000; // 5 minutos
 	public static final String JWT_FIRMA = "firma";
 	
-	public static final String REQUEST_MATCHER_AUTH = "/auth/**";
-	public static final String REQUEST_MATCHER_H2_CONSOLE = "/h2-console/**";
-	public static final String REQUEST_MATCHER_SWAGGER = "/swagger-ui/**";
-
+	public static final String[] MATCHER_AUTH = {"/auth/**"};
+	public static final String[] MATCHER_H2 = {"/h2-console/**", "/favicon.ico/**"};
+	public static final String[] MATCHER_SWAGGER = {"/swagger*/**", "/swagger-ui/**", "/v3/api-docs/**", "/configuration/**", "/webjars/**"};
 }

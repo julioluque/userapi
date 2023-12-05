@@ -1,5 +1,9 @@
 package ar.com.jluque.userapi.security;
 
+import static ar.com.jluque.userapi.security.SecurityConstant.MATCHER_AUTH;
+import static ar.com.jluque.userapi.security.SecurityConstant.MATCHER_H2;
+import static ar.com.jluque.userapi.security.SecurityConstant.MATCHER_SWAGGER;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -52,9 +56,9 @@ public class SecurityConfig {
 			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			.and()
 			.authorizeHttpRequests()
-			.requestMatchers(SecurityConstant.REQUEST_MATCHER_AUTH).permitAll()
-			.requestMatchers(SecurityConstant.REQUEST_MATCHER_H2_CONSOLE).permitAll()
-			.requestMatchers(SecurityConstant.REQUEST_MATCHER_SWAGGER).permitAll()
+			.requestMatchers(MATCHER_AUTH).permitAll()
+			.requestMatchers(MATCHER_H2).permitAll()
+			.requestMatchers(MATCHER_SWAGGER).permitAll()
 			.anyRequest().authenticated()
 			.and()
 			.httpBasic();
