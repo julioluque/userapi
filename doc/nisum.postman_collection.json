@@ -1,0 +1,535 @@
+{
+	"info": {
+		"_postman_id": "81fa6b0c-66a5-4561-b390-ae4d08455f74",
+		"name": "nisum",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11160834"
+	},
+	"item": [
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"julio\",\r\n    \"password\": \"1234\",\r\n    \"role\": \"USER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}auth/register",
+							"host": [
+								"{{BASE-PATH}}auth"
+							],
+							"path": [
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"julio\",\r\n    \"password\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}auth/login",
+							"host": [
+								"{{BASE-PATH}}auth"
+							],
+							"path": [
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "getAllUsers",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY2ODA0MCwiZXhwIjoxNzAxNjY4MzQwfQ.TRsE5fnUch6zOCKvVAAq1GqiWvilYQf6hV9dA3kMAFIcmSBWvXhzeDcylGtHy-HqzVWSMicAkBWpputetKdvAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users",
+							"host": [
+								"{{BASE-PATH}}users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getUserById",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY2ODA0MCwiZXhwIjoxNzAxNjY4MzQwfQ.TRsE5fnUch6zOCKvVAAq1GqiWvilYQf6hV9dA3kMAFIcmSBWvXhzeDcylGtHy-HqzVWSMicAkBWpputetKdvAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users/09dd509d-b8e7-427b-8a5e-ee2ed654c9ec",
+							"host": [
+								"{{BASE-PATH}}users"
+							],
+							"path": [
+								"09dd509d-b8e7-427b-8a5e-ee2ed654c9ec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "addUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY3MDAyNiwiZXhwIjoxNzAxNjcwMzI2fQ.yVl-eWNRqbKHB3ol40Dz1KGylDGlByuWuXP_qSVAHp-yCjEd9nqP8wgleVi4vaE48596QROi1IX6Yd9DvZ4fRA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"julio luque 1\",\r\n    \"email\": \"julio.luque1@example.com\",\r\n    \"password\": \"Secreto1\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410011\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n        {\r\n            \"number\": \"123410012\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users",
+							"host": [
+								"{{BASE-PATH}}users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "addUser 1",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"julio luque 1\",\r\n    \"email\": \"julio.luque1@example.com\",\r\n    \"password\": \"Secreto1\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410011\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n           {\r\n            \"number\": \"123410012\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE-PATH}}users",
+									"host": [
+										"{{BASE-PATH}}users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Dec 2023 14:37:06 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 3,\n    \"userName\": \"julio luque 1\",\n    \"created\": \"2023-12-03T11:37:06.8353414\",\n    \"modified\": null,\n    \"lastLogin\": \"2023-12-03T11:37:06.8353414\",\n    \"token\": \"sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1\",\n    \"isActive\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "addUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY3MDAyNiwiZXhwIjoxNzAxNjcwMzI2fQ.yVl-eWNRqbKHB3ol40Dz1KGylDGlByuWuXP_qSVAHp-yCjEd9nqP8wgleVi4vaE48596QROi1IX6Yd9DvZ4fRA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"julio luque 2\",\r\n    \"email\": \"julio.luque2@example.com\",\r\n    \"password\": \"Secreto2\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410021\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n        {\r\n            \"number\": \"123410022\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users",
+							"host": [
+								"{{BASE-PATH}}users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "addUser 2",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"julio luque 2\",\r\n    \"email\": \"julio.luque2@example.com\",\r\n    \"password\": \"Secreto2\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410021\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n           {\r\n            \"number\": \"123410022\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE-PATH}}users",
+									"host": [
+										"{{BASE-PATH}}users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Dec 2023 14:38:17 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 4,\n    \"userName\": \"julio luque 2\",\n    \"created\": \"2023-12-03T11:38:17.9183145\",\n    \"modified\": null,\n    \"lastLogin\": \"2023-12-03T11:38:17.9183145\",\n    \"token\": \"sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1\",\n    \"isActive\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "addUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY2ODA0MCwiZXhwIjoxNzAxNjY4MzQwfQ.TRsE5fnUch6zOCKvVAAq1GqiWvilYQf6hV9dA3kMAFIcmSBWvXhzeDcylGtHy-HqzVWSMicAkBWpputetKdvAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"julio luque 3\",\r\n    \"email\": \"julio.luque3@example.com\",\r\n    \"password\": \"Secreto3\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410031\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n        {\r\n            \"number\": \"123410032\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users",
+							"host": [
+								"{{BASE-PATH}}users"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "addUser 3",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"name\": \"julio luque 3\",\r\n    \"email\": \"julio.luque3@example.com\",\r\n    \"password\": \"Secreto3\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410031\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n           {\r\n            \"number\": \"123410032\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{BASE-PATH}}users",
+									"host": [
+										"{{BASE-PATH}}users"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 03 Dec 2023 14:38:24 GMT"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=60"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": 5,\n    \"userName\": \"julio luque 3\",\n    \"created\": \"2023-12-03T11:38:24.5777739\",\n    \"modified\": null,\n    \"lastLogin\": \"2023-12-03T11:38:24.5777739\",\n    \"token\": \"sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1\",\n    \"isActive\": true\n}"
+						}
+					]
+				},
+				{
+					"name": "updateUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY2ODA0MCwiZXhwIjoxNzAxNjY4MzQwfQ.TRsE5fnUch6zOCKvVAAq1GqiWvilYQf6hV9dA3kMAFIcmSBWvXhzeDcylGtHy-HqzVWSMicAkBWpputetKdvAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"julio luque 001\",\r\n    \"email\": \"julio.luque1@example.com\",\r\n    \"password\": \"Secreto001\",\r\n    \"phones\": [\r\n        {\r\n            \"number\": \"123410011\",\r\n            \"cityCode\": \"CityA\",\r\n            \"countryCode\": \"CountryX\"\r\n        },\r\n           {\r\n            \"number\": \"123410012\",\r\n            \"cityCode\": \"CityB\",\r\n            \"countryCode\": \"CountryY\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users/09dd509d-b8e7-427b-8a5e-ee2ed654c9ec",
+							"host": [
+								"{{BASE-PATH}}users"
+							],
+							"path": [
+								"09dd509d-b8e7-427b-8a5e-ee2ed654c9ec"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "blockedUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY2ODA0MCwiZXhwIjoxNzAxNjY4MzQwfQ.TRsE5fnUch6zOCKvVAAq1GqiWvilYQf6hV9dA3kMAFIcmSBWvXhzeDcylGtHy-HqzVWSMicAkBWpputetKdvAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"isActive\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users/09dd509d-b8e7-427b-8a5e-ee2ed654c9ec/bloquer",
+							"host": [
+								"{{BASE-PATH}}users"
+							],
+							"path": [
+								"09dd509d-b8e7-427b-8a5e-ee2ed654c9ec",
+								"bloquer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deleteUser",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqdWxpbyIsImlhdCI6MTcwMTY2ODA0MCwiZXhwIjoxNzAxNjY4MzQwfQ.TRsE5fnUch6zOCKvVAAq1GqiWvilYQf6hV9dA3kMAFIcmSBWvXhzeDcylGtHy-HqzVWSMicAkBWpputetKdvAQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE-PATH}}users/09dd509d-b8e7-427b-8a5e-ee2ed654c9ec",
+							"host": [
+								"{{BASE-PATH}}users"
+							],
+							"path": [
+								"09dd509d-b8e7-427b-8a5e-ee2ed654c9ec"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
