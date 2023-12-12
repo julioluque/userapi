@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -27,14 +30,16 @@ import ar.com.jluque.userapi.entity.PhoneEntity;
 import ar.com.jluque.userapi.entity.UserEntity;
 import ar.com.jluque.userapi.exception.custom.ConflictCustomException;
 import ar.com.jluque.userapi.exception.custom.FieldExistCustomException;
+import ar.com.jluque.userapi.exception.custom.NisumBuissinesException;
 import ar.com.jluque.userapi.exception.custom.NotFoundCustomException;
+import ar.com.jluque.userapi.exception.custom.UnauthorizedCustomException;
 import ar.com.jluque.userapi.mapper.RequestMapper;
 import ar.com.jluque.userapi.mapper.UserMapper;
 import ar.com.jluque.userapi.repository.UserRepository;
 import ar.com.jluque.userapi.service.impl.UserServiceImpl;
 import ar.com.jluque.userapi.utils.UserApiConstant;
 
-public class UserServiceTest {
+class UserServiceTest {
 
 	@InjectMocks
 	private UserServiceImpl service;
@@ -48,6 +53,20 @@ public class UserServiceTest {
 	@BeforeEach
 	void setup() {
 		MockitoAnnotations.openMocks(this);
+	}
+
+	@Test
+	void echoTestSuccessTest()  {
+		when(repository.isConect()).thenReturn(true);
+		String testConectionExpected = "TestDatabase = true";
+		assertEquals(service.echoTestService(), testConectionExpected);
+	}
+
+	@Test
+	void echoTestNoConectTest()  {
+		when(repository.isConect()).thenReturn(false);
+		String testConectionExpected = "TestDatabase = false";
+		assertEquals(service.echoTestService(), testConectionExpected);
 	}
 
 	@Test
@@ -110,6 +129,21 @@ public class UserServiceTest {
 				.build();
 		String someToken = "sometoken";
 		assertThrows(ConflictCustomException.class, () -> service.addUser(userDto, someToken));
+		verify(repository, never()).save(any());
+	}
+	
+	@Test
+	void addUserUnautorizedTest() throws Exception {
+		when(repository.existsByEmail(anyString())).thenReturn(false);
+
+		UserDto userDtoRequest = UserDto.builder().name("julio luque 1").email("julio@example.com").password("Secreto1")
+				.phones(Arrays.asList(PhoneDto.builder().number("12341" + (int) (Math.random() * 100000))
+						.cityCode("CityA").countryCode("CountryX").build()))
+				.build();
+		String someTokenRequest = "sometoken.asdfasdiupqojdvqp";
+
+		assertThrows(UnauthorizedCustomException.class, () -> service.addUser(userDtoRequest, someTokenRequest));
+		verify(repository, never()).save(any());
 	}
 
 	@Test
@@ -136,7 +170,6 @@ public class UserServiceTest {
 		String emailExpected = "julio@example.com";
 		
 		assertEquals(callToAddUser.getUserInfo().getEmail(), emailExpected);
-
 	}
 
 	@Test
@@ -150,8 +183,28 @@ public class UserServiceTest {
 		String someToken = "sometoken";
 		
 		assertThrows(NotFoundCustomException.class, () -> service.updateUser(uuidValue, userDto, someToken));
+        verify(repository, never()).save(any());
 	}
 
+	@Test
+	void updateUserUnautorizedTest() throws Exception {
+		UUID uuidValue = UUID.randomUUID();
+
+		UserEntity userEntity = UserEntity.builder().id(uuidValue).name("pepe").email("julio.luque1@example.com")
+				.phones(Arrays.asList(PhoneEntity.builder().number("123456789").build())).build();
+
+		when(repository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
+
+		UserDto userDtoRequest = UserDto.builder().name("julio luque 1").email("julio@example.com").password("Secreto1")
+				.phones(Arrays.asList(PhoneDto.builder().number("12341" + (int) (Math.random() * 100000))
+						.cityCode("CityA").countryCode("CountryX").build()))
+				.build();
+		String someTokenRequest = "sometoken.asdfasdiupqojdvqp";
+
+		assertThrows(UnauthorizedCustomException.class, () -> service.updateUser(uuidValue, userDtoRequest, someTokenRequest));
+		verify(repository, never()).save(any());
+	}
+	
 	@Test
 	void updateUserSuccessTest() throws Exception {
 		UUID uuidValue = UUID.randomUUID();
@@ -195,6 +248,104 @@ public class UserServiceTest {
 		String someToken = "Bearer sometoken";
 		
 		assertThrows(NotFoundCustomException.class, () -> service.bloquerUser(uuidValue, userDataDto, someToken));
+        verify(repository, never()).save(any());
+	}
+
+	@Test
+	void bloquerUserNisumBuissinesExceptionTest() throws Exception {
+		UUID uuidValue = UUID.randomUUID();
+
+		UserEntity userEntity = UserEntity.builder().id(uuidValue).name("pepe").email("julio.luque1@example.com")
+				.phones(Arrays.asList(PhoneEntity.builder().number("123456789").build())).isActive(true).build();
+
+		when(repository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
+
+		UserDataDto userDataDto = UserDataDto.builder().created(LocalDateTime.now().minusDays(3L))
+				.modified(LocalDateTime.now().minusHours(5L)).lastLogin(LocalDateTime.now().minusMinutes(10))
+				.token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true).build();
+		String someToken = "Bearer sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1";
+
+		assertThrows(NisumBuissinesException.class, () -> service.bloquerUser(uuidValue, userDataDto, someToken));
+		verify(repository, never()).save(any());
+	}
+
+	@Test
+	void bloquerUserSuccessTest() throws Exception {
+		UUID uuidValue = UUID.randomUUID();
+
+		UserEntity userEntity = UserEntity.builder().id(uuidValue).name("pepe").email("julio.luque1@example.com")
+				.phones(Arrays.asList(PhoneEntity.builder().number("123456789").build())).isActive(true).build();
+
+		when(repository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
+
+		UserDataDto userDataDto = UserDataDto.builder().created(LocalDateTime.now().minusDays(3L))
+				.modified(LocalDateTime.now().minusHours(5L)).lastLogin(LocalDateTime.now().minusMinutes(10))
+				.token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true).build();
+
+		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+		UserEntity updatedUserEntity = UserMapper.bloquerUserMapperToEntity(userEntity, userDataDto);
+
+		when(repository.save(any())).thenReturn(updatedUserEntity);
+
+		UserDataDto userDataDtoRequest = UserDataDto.builder().created(LocalDateTime.now().minusDays(3L))
+				.modified(LocalDateTime.now().minusHours(5L)).lastLogin(LocalDateTime.now().minusMinutes(10))
+				.token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(false).build();
+
+		String someTokenRequest = "Bearer sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1";
+
+		UserResponseDto callToAddUser = service.bloquerUser(uuidValue, userDataDtoRequest, someTokenRequest);
+		String statusExpected = UserApiConstant.USER_STATUS_03;
+
+		assertEquals(callToAddUser.getUserData().getStatus(), statusExpected);
+	}
+
+	@Test
+	void unBloquerUserSuccessTest() throws Exception {
+		UUID uuidValue = UUID.randomUUID();
+
+		UserEntity userEntity = UserEntity.builder().id(uuidValue).name("pepe").email("julio.luque1@example.com")
+				.phones(Arrays.asList(PhoneEntity.builder().number("123456789").build())).isActive(false).build();
+
+		when(repository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
+
+		UserDataDto userDataDto = UserDataDto.builder().created(LocalDateTime.now().minusDays(3L))
+				.modified(LocalDateTime.now().minusHours(5L)).lastLogin(LocalDateTime.now().minusMinutes(10))
+				.token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(false).build();
+
+		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
+		UserEntity updatedUserEntity = UserMapper.bloquerUserMapperToEntity(userEntity, userDataDto);
+
+		when(repository.save(any())).thenReturn(updatedUserEntity);
+
+		UserDataDto userDataDtoRequest = UserDataDto.builder().created(LocalDateTime.now().minusDays(3L))
+				.modified(LocalDateTime.now().minusHours(5L)).lastLogin(LocalDateTime.now().minusMinutes(10))
+				.token("sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1").isActive(true).build();
+
+		String someTokenRequest = "Bearer sometoken.a1v651qq546464a6s666DF65WD1q516fqwf1";
+
+		UserResponseDto callToAddUser = service.bloquerUser(uuidValue, userDataDtoRequest, someTokenRequest);
+		String statusExpected = UserApiConstant.USER_STATUS_04;
+
+		assertEquals(callToAddUser.getUserData().getStatus(), statusExpected);
+	}
+
+	@Test
+	void deleteUserNotFoundExceptionTest() {
+		UUID uuidValue = UUID.randomUUID();
+		when(repository.findById(any())).thenReturn(Optional.ofNullable(null));
+		assertThrows(NotFoundCustomException.class, () -> service.deleteUser(uuidValue));
+		verify(repository, never()).delete(any());
+	}
+
+	@Test
+	void deleteUserSuccessTest() {
+		UUID uuidValue = UUID.randomUUID();
+		UserEntity userEntity = UserEntity.builder().id(uuidValue).name("pepe").email("julio.luque1@example.com")
+				.phones(Arrays.asList(PhoneEntity.builder().number("123456789").build())).isActive(true).build();
+
+		when(repository.findById(any())).thenReturn(Optional.ofNullable(userEntity));
+		service.deleteUser(uuidValue);
+		verify(repository, times(1)).delete(userEntity);
 	}
 
 }

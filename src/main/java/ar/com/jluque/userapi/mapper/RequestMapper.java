@@ -1,6 +1,9 @@
 package ar.com.jluque.userapi.mapper;
 
 import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 import ar.com.jluque.userapi.dto.UserDto;
 import ar.com.jluque.userapi.exception.custom.ConflictCustomException;
@@ -10,6 +13,8 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class RequestMapper {
 
+
+	@Autowired
 	private RequestMapper() {
 	}
 

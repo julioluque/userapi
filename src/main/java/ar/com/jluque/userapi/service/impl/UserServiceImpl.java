@@ -59,12 +59,13 @@ public class UserServiceImpl implements UserService {
 		UserDto userDto = UserMapper.userMapperEntityToDto(userEntity);
 		UserMapper.maskedPass(userDto);
 		return UserMapper.responseMapperBuildToDto(userEntity, userDto);
-
 	}
 
 	@Transactional
 	public UserResponseDto addUser(UserDto userDto, String authorizationHeader) {
+
 		RequestMapper.paramsValid(userDto);
+
 		if (repository.existsByEmail(userDto.getEmail()))
 			throw new FieldExistCustomException("El correo ya está registrado.");
 
