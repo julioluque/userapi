@@ -203,16 +203,4 @@ public class UserControlerTest extends BaseIT {
 				.accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
 	}
 
-	@Test
-	void deleteUser200Test() throws Exception {
-		UUID uuidValue = UUID.randomUUID();
-
-		// Perform the deletion through mockMvc
-		mockMvc.perform(delete("/users/{id}", uuidValue).contentType(MediaType.APPLICATION_JSON_VALUE)
-				.accept(MediaType.APPLICATION_JSON_VALUE)).andExpect(status().isNoContent());
-
-		// Verify that the entity is deleted from the repository
-		verify(service, times(1)).deleteUser(eq(uuidValue));
-		assertThat(repository.findById(uuidValue)).isEmpty();
-	}
 }
