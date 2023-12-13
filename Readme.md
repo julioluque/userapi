@@ -125,9 +125,20 @@ FOREIGN KEY (ROLE_ID) REFERENCES ROLE(ID_ROLE)
 );
 ```
 
+## TEST
 
-### TEST
+### Coverage
 
 * UnitTest 95%
 * IntegrationTest 91%
+
+### Expose
+
+| Herramienta | Descripcion                  | Ubicacion                                  |
+|-------------|------------------------------|--------------------------------------------|
+| POSTMAN     | Collection con mocks         | ~/doc/nisum.postman_collection.json        |
+| POSTMAN     | Environment                  | ~/doc/nisum-local.postman_environment.json |
+| SWAGGER     | Consola del Contrato         | http://localhost:8080/swagger-ui.html      |
+| H2          | Consola de la base de datos  | http://localhost:8080/h2-console/     |
+ 
 
