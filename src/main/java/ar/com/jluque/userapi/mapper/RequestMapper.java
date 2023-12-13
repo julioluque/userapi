@@ -1,7 +1,6 @@
 package ar.com.jluque.userapi.mapper;
 
 import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,10 +23,10 @@ public class RequestMapper {
 			throw new ConflictCustomException("Formato de email incorrecto.");
 		}
 
-//		if (!passwordValidation(userDto.getPassword())) {
-//			log.error("Formato de password incorrecto.");
-//			throw new ConflictCustomException("Formato de password incorrecto.");
-//		}
+		if (!passwordValidation(userDto.getPassword())) {
+			log.error("Formato de password incorrecto.");
+			throw new ConflictCustomException("Formato de password incorrecto.");
+		}
 	}
 
 	public static boolean emailValidation(String email) {
@@ -35,9 +34,9 @@ public class RequestMapper {
 		return matcher.matches();
 	}
 
-//	public static boolean passwordValidation(String password) {
-//		Matcher matcher = UserApiConstant.PASSWORD_PATTERN.matcher(password);
-//		return matcher.matches();
-//	}
+	public static boolean passwordValidation(String password) {
+		Matcher matcher = UserApiConstant.PASSWORD_PATTERN.matcher(password);
+		return matcher.matches();
+	}
 
 }

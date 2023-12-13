@@ -133,6 +133,17 @@ class UserServiceTest {
 	}
 	
 	@Test
+	void addUserPasswordFormatExceptionTest() throws Exception {
+		String passwordIncorrecta = "formatoincorrectoexample";
+		UserDto userDto = UserDto.builder().email("julio@example.com").password(passwordIncorrecta)
+				.phones(Arrays.asList(PhoneDto.builder().number("12341" + (int) (Math.random() * 100000)).build()))
+				.build();
+		String someToken = "sometoken";
+		assertThrows(ConflictCustomException.class, () -> service.addUser(userDto, someToken));
+		verify(repository, never()).save(any());
+	}
+	
+	@Test
 	void addUserUnautorizedTest() throws Exception {
 		when(repository.existsByEmail(anyString())).thenReturn(false);
 
